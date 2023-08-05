@@ -5,6 +5,18 @@ root {
     --option: #320a28;
 }
 
+* {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
 body {
     margin: 0;
     display: flex;
@@ -18,9 +30,18 @@ body {
 }
 
 #scene-container {
-    height: 50vh;
-    width: 50vw;
     position: relative;
+    max-width: 1440px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.menu {
+    position: absolute;
+    bottom: 10em;
+    display: flex;
+    gap: 1em;
+    padding: 0 1em;
 }
 
 /* <select> styles */
@@ -39,12 +60,10 @@ select {
     border-radius: 0.25em;
     box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    /* <option> colors */
-    /* Remove focus outline */
-    /* Remove IE arrow */
 }
 
 select option {
+    font: inherit;
     color: inherit;
     background-color: #000;
 }
@@ -53,16 +72,11 @@ select::-ms-expand {
     display: none;
 }
 
-select option[value="0"]{
+select option[value="0"] {
     display: none;
 }
 
-.menu{
-    display: flex;
-    justify-content: space-between;
-}
-
-#set-color{
+#set-color {
     appearance: none;
     border: 0;
     outline: 0;
@@ -71,10 +85,24 @@ select option[value="0"]{
     width: 10em;
     height: 3em;
     padding: 0 4em 0 1em;
-    background:linear-gradient(to left, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.2));
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.2));
     color: white;
     border-radius: 0.25em;
     box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
+
+@media screen and (max-width:600px) {
+    .menu{
+        flex-direction: column;
+        padding: 0 1em;
+    }
+    select{
+        width: 100%;
+    }
+
+    #set-color{
+        width: 50vw;
+    }
+}
