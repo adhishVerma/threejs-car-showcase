@@ -21,17 +21,16 @@ class World {
 
         this.loop = new Loop(this.camera, this.scene, this.renderer, controls);
 
-        const {  mainLight, rectLight1, lightbulb } = createLights();
+        const { sceneLight,ambientLight,mainLight , lightbulb, lightbulb2, lightbulb3, lightbulb4} = createLights();
 
-        this.scene.add( mainLight, rectLight1,  lightbulb);
+        this.scene.add( sceneLight,ambientLight,mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4);
 
         const resizer = new Resizer(container, this.camera, this.renderer);
     }
 
-    async init(dropdownMenu){
+    async init(){
         // loading car models
         this.car = await loadCar();
-        this.car.dropdown(dropdownMenu);
         this.scene.add(this.car);
         this.loop.updateables.push(this.car);
     }
@@ -48,8 +47,12 @@ class World {
         this.loop.stop();
     }
 
-    carChange(nodeId, newColor){
-        this.car.carChange(nodeId, newColor);
+    animateOnce(){
+        this.loop.animateOnce();
+    }
+
+    carChange(meshName, newColor){
+        this.car.carChange(meshName, newColor);
     }
 }
 

@@ -19,9 +19,17 @@ class Loop {
     })
   }
 
+
   stop() {
     this.renderer.setAnimationLoop(null);
   }
+
+  animateOnce() {
+    this.updateables.forEach((object) => {
+      object.animateOnce();
+    })
+  }
+
 
   tick(){
     const delta = clock.getDelta();
