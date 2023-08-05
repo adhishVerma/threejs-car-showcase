@@ -9,55 +9,47 @@ import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 
 
-let camera;
-let scene;
-let renderer;
-let loop;
-let car;
-
 
 class World {
     constructor(container) {
-        camera = createCamera();
-        scene = createScene();
-        renderer = createRenderer();
-        loop = new Loop(camera, scene, renderer);
-        container.append(renderer.domElement);
+        this.camera = createCamera();
+        this.scene = createScene();
+        this.renderer = createRenderer();
+        container.append(this.renderer.domElement);
+        
+        const controls = createControls(this.camera, this.renderer.domElement);
 
-        const controls = createControls(camera, renderer.domElement);
-        controls.addEventListener('change', () => {
-            this.render();
-        });
+        this.loop = new Loop(this.camera, this.scene, this.renderer, controls);
 
         const {  mainLight, rectLight1, lightbulb } = createLights();
 
-        scene.add( mainLight, rectLight1,  lightbulb);
+        this.scene.add( mainLight, rectLight1,  lightbulb);
 
-        const resizer = new Resizer(container, camera, renderer);
+        const resizer = new Resizer(container, this.camera, this.renderer);
     }
 
     async init(dropdownMenu){
         // loading car models
-        car = await loadCar();
-        car.dropdown(dropdownMenu);
-        scene.add(car);
-        loop.updateables.push(car);
+        this.car = await loadCar();
+        this.car.dropdown(dropdownMenu);
+        this.scene.add(this.car);
+        this.loop.updateables.push(this.car);
     }
 
     render() {
-        renderer.render(scene, camera);  
+        this.renderer.render(scene, camera);  
     }
 
     start() {
-        loop.start();
+        this.loop.start();
     }
 
     stop() {
-        loop.stop();
+        this.loop.stop();
     }
 
     carChange(nodeId, newColor){
-        car.carChange(nodeId, newColor);
+        this.car.carChange(nodeId, newColor);
     }
 }
 

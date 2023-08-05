@@ -40,8 +40,6 @@ async function loadCar() {
         })
     }
 
-
-
     return car;
 }
 
