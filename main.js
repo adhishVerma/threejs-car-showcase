@@ -1,9 +1,16 @@
 import { World } from "./src/World/World.js";
 
-const dropdown = document.getElementById('mesh-select');
 const colorHex = document.getElementById('set-color');
+const openDoors = document.getElementById('open-door-icon');
 
-
+const colors = {
+    "blue": "#0065AF",
+    "white": "#D7DCE2",
+    "grey": "#686F79",
+    "mist": "#5b7385",
+    "white_adv": "#D8DDE3",
+    "black": "#42494F"
+}
 
 async function main() {
     // setup world
@@ -15,22 +22,27 @@ async function main() {
     const world = new World(container);
 
     // load car model
-    await world.init(dropdown);
+    await world.init();
 
     // 2. Render the scene
     world.start();
 
-    colorHex.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-            // check if valid hex value
-            const reg = /^#([0-9a-f]{3}){1,2}$/i
-            if(reg.test(e.target.value)){
-                // trigger world with mesh change option
-                world.carChange(dropdown.value, colorHex.value);
-            }
-            e.target.value = "Enter correct Hex val"
-        }
+    // setting up color change
+    for (const [color, hex] of Object.entries(colors)) {
+        const colorOption = document.createElement('div');
+        colorOption.addEventListener('click', (e) => {
+            world.carChange("EXT_COLORBODY", hex);
+        })
+        colorOption.classList.add('color-option');
+        colorOption.setAttribute('data-color', hex);
+        colorOption.style.background = hex
+        colorHex.appendChild(colorOption);
+    }
+
+    openDoors.addEventListener('click', () => {
+        world.animateOnce();
     })
+
 }
 
 main().catch((err) => {
@@ -38,12 +50,6 @@ main().catch((err) => {
 });
 
 
-
-colorHex.addEventListener('keydown', (e) => {
-    if (e.target.value == '' && e.key === 'Backspace') {
-        e.target.value = e.target.dataset.input
-    }
-})
 
 
 

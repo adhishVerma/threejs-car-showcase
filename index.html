@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>model-viewer</title>
+  <title>Car 3D Viewer</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="public/icons/icons8-done-48.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,10 +27,10 @@
 <body>
   <div id="scene-container">
     <div class="menu">
-      <select id="mesh-select">
-        <option selected value="0">select mesh</option>
-      </select>
-      <input id="set-color" data-input="enter HEX" value="enter HEX" />
+      <div id="set-color"></div>
+        <div id="open-door-icon">
+          <img src="public/icons/open-doors.png">
+        </div>
     </div>
   </div>
   <script type="module" src="/main.js"></script>

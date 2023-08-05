@@ -1,43 +1,33 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { setupModel } from './setupModel.js';
-import { Color, MathUtils } from 'three';
+import { Color } from 'three';
 
 
 
 async function loadCar() {
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    loader.setDRACOLoader(dracoLoader);
 
-    const carData = await loader.loadAsync('public/assets/free_1975_porsche_911_930_turbo/scene.gltf')
-
+    const carData = await loader.loadAsync('public/assets/Tata Safari Adventure (GLB)(imaginator-cars.tatamotors.com)/model.glb')
 
     const car = setupModel(carData);
 
-    car.tick = (delta) => {
-
-    }
-
-    car.dropdown = (dropdown) => {
+    car.carChange = (meshName, newColor) => {
+        console.log("car-change", newColor)
         car.traverse(function (node) {
             if (node.isMesh) {
-                if (dropdown) {
-                    const meshoption = document.createElement('option');
-                    meshoption.classList.add("option")
-                    meshoption.innerText = node.material.name
-                    meshoption.setAttribute("value", node.material.uuid)
-                    dropdown.appendChild(meshoption);
-                }
-            }
-        })
-    }
-
-    car.carChange = (nodeId, newColor) => {
-        car.traverse(function(node){
-            if(node.isMesh){
-                if (node.material.uuid === nodeId){
+                if (node.material.name === meshName) {
                     node.material.color = new Color(newColor);
                 }
             }
         })
+    }
+
+    car.animateOnce = () => {
+        car.openDoors();
     }
 
     return car;
