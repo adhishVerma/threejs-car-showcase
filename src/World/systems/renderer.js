@@ -6,6 +6,7 @@ function createRenderer() {
   // turn on the physically correct lighting model
 
   renderer.setClearColor( 0x000000, 0 ); // the default
+  renderer.autoClear = true;
 
   // renderer.setAnimationLoop(() => {
   //   renderer.render(scene,camera);
