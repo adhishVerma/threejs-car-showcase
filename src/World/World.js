@@ -28,9 +28,9 @@ class World {
         const resizer = new Resizer(container, this.camera, this.renderer);
     }
 
-    async init(){
+    async init(progressBarContainer ,controls){
         // loading car models
-        this.car = await loadCar();
+        this.car = await loadCar(progressBarContainer,controls);
         this.scene.add(this.car);
         this.loop.updateables.push(this.car);
     }
@@ -50,6 +50,11 @@ class World {
     animateOnce(){
         this.loop.animateOnce();
     }
+
+    resetAnimation(){
+        this.loop.resetAnimation();
+    }
+
 
     carChange(meshName, newColor){
         this.car.carChange(meshName, newColor);
