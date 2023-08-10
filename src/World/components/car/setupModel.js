@@ -20,7 +20,13 @@ function setupModel(data) {
     
     model.openDoors = () => {
         actions.forEach(action => {
-            action.reset().play()
+            action.play()
+        })
+    }
+
+    model.closeDoors = () => {
+        actions.forEach(action => {
+            action.stop();
         })
     }
     

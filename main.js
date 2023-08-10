@@ -2,6 +2,9 @@ import { World } from "./src/World/World.js";
 
 const colorHex = document.getElementById('set-color');
 const openDoors = document.getElementById('open-door-icon');
+const progressBarContainer = document.querySelector('.progress-bar-container')
+const controls = document.querySelector('.controls')
+
 
 const colors = {
     "blue": "#0065AF",
@@ -22,7 +25,7 @@ async function main() {
     const world = new World(container);
 
     // load car model
-    await world.init();
+    await world.init(progressBarContainer, controls);
 
     // 2. Render the scene
     world.start();
@@ -39,14 +42,22 @@ async function main() {
         colorHex.appendChild(colorOption);
     }
 
+    let doors = false;
     openDoors.addEventListener('click', () => {
-        world.animateOnce();
+        if (doors){
+            world.resetAnimation();
+        }else{
+            world.animateOnce();
+        }
+
+        doors = !doors;
     })
 
 }
 
 main().catch((err) => {
     console.log(err);
+    alert("loading Failed");
 });
 
 

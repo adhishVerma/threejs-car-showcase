@@ -30,6 +30,12 @@ class Loop {
     })
   }
 
+  resetAnimation(){
+    this.updateables.forEach((object) => {
+      object.resetAnimation();
+    })
+  }
+
 
   tick(){
     const delta = clock.getDelta();
