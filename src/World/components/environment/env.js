@@ -1,19 +1,18 @@
-import { LoadingManager, CircleGeometry, BackSide, TextureLoader,Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
+import { LoadingManager, CircleGeometry, BackSide, TextureLoader, SRGBColorSpace, DoubleSide, RepeatWrapping, MirroredRepeatWrapping, ClampToEdgeWrapping, Vector2 } from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
 
 async function createEnv(){
 
     const loadingManager = new LoadingManager();
-    const loader  = new TextureLoader(loadingManager);
-    const envTexture = await loader.loadAsync('public/assets/env/MAGNITE_ENV_DAY_DOME.jpg')
-    const material = new MeshBasicMaterial({map : envTexture});
-    material.side = BackSide;
-    const phiStart = 0;
-    const phiEnd = Math.PI*2;
-    const thetaStart = 0;
-    const thetaEnd = Math.PI
-    const geometry = new SphereGeometry(20, 32, 32, phiStart, phiEnd, thetaStart, thetaEnd);
-    const envMesh = new Mesh(geometry,material);
-
+    const geometryLoader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    geometryLoader.setDRACOLoader(dracoLoader);
+    const geometry  = await geometryLoader.loadAsync('public/assets/env/Dome.glb');
+    const envMesh = geometry.scene
+    envMesh.translateY(-0.001);
 
     return envMesh;
     
