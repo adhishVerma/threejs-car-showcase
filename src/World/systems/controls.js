@@ -7,7 +7,8 @@ function createControls(camera, canvas) {
     // controls.autoRotate = true;
     controls.minPolarAngle = 0;
     controls.maxPolarAngle = (Math.PI/2.3);
-    controls.maxDistance = 20;
+    controls.minDistance = 4;
+    controls.maxDistance = 10;
     controls.enablePan = false;
     return controls;
 }

@@ -12,6 +12,8 @@ import { Resizer } from './systems/Resizer.js';
 
 
 
+
+
 class World {
     constructor(container) {
         this.camera = createCamera();
@@ -23,9 +25,9 @@ class World {
 
         this.loop = new Loop(this.camera, this.scene, this.renderer, controls);
 
-        const { sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4 } = createLights();
+        const { sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4, lightbulb5 } = createLights();
 
-        this.scene.add(sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4);
+        this.scene.add( sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4, lightbulb5);
 
         const resizer = new Resizer(container, this.camera, this.renderer);
     }
@@ -34,7 +36,7 @@ class World {
         // loading car models
         this.car = await loadCar(progressBarContainer, controls);
         this.scene.add(this.car);
-        this.car.scale.set(1,1,1)
+        // this.car.scale.set(1,1,1)
         const env = await createEnv();
         this.scene.add(env);
         this.loop.updateables.push(this.car);
