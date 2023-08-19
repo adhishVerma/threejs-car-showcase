@@ -9,7 +9,7 @@ function createCamera() {
   );
 
   // move the camera back so we can view the scene
-  camera.position.set(1, 3, 8);
+  camera.position.set(4, 5, 7);
   
   return camera;
 }
