@@ -59,7 +59,7 @@ body {
 }
 
 #open-door-icon {
-  border: 1px solid rgba(54, 54, 54, 0.52);
+  border: 1px solid rgba(233, 232, 232, 0.643);
   border-radius: 0.5em;
   display: flex;
   align-items: center;
@@ -67,6 +67,7 @@ body {
   padding: 6px;
   overflow: hidden;
   cursor: pointer;
+  background-color: rgba(246, 246, 246, 0.431);
 }
 
 #open-door-icon img {
