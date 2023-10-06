@@ -28,7 +28,6 @@ async function loadCar(progressBarContainer,controls) {
     const carData = await loader.loadAsync('public/assets/safari/model.glb');
     const car = setupModel(carData);
 
-
     car.carChange = (meshName, newColor) => {
         car.traverse(function (node) {
             if (node.isMesh) {
