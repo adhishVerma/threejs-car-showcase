@@ -25,9 +25,9 @@ class World {
 
         this.loop = new Loop(this.camera, this.scene, this.renderer, controls);
 
-        const { sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4, lightbulb5 } = createLights();
+        const { sceneLight, ambientLight, mainLight } = createLights();
 
-        this.scene.add( sceneLight, ambientLight, mainLight, lightbulb, lightbulb2, lightbulb3, lightbulb4, lightbulb5);
+        this.scene.add( sceneLight, ambientLight, mainLight);
 
         const resizer = new Resizer(container, this.camera, this.renderer);
     }
