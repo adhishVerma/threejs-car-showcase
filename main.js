@@ -12,7 +12,8 @@ const colors = {
     "grey": "#686F79",
     "mist": "#5b7385",
     "white_adv": "#D8DDE3",
-    "black": "#42494F"
+    "black": "#42494F",
+    "chrome" : '#DBE2E9'
 }
 
 async function main() {
@@ -35,6 +36,7 @@ async function main() {
         const colorOption = document.createElement('div');
         colorOption.addEventListener('click', (e) => {
             world.carChange("EXT_COLORBODY", hex);
+            world.carChange("INT_COLORBODY", hex);
         })
         colorOption.classList.add('color-option');
         colorOption.setAttribute('data-color', hex);

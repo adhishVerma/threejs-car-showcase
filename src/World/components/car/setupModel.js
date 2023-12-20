@@ -20,6 +20,7 @@ function setupModel(data) {
     //     }
     // })
 
+
     clips.forEach(clip => {
         const action = mixer.clipAction(clip);
         actions.push(action);

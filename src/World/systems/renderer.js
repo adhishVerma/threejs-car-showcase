@@ -1,14 +1,19 @@
-import { WebGLRenderer, ACESFilmicToneMapping } from 'three';
+import { LinearToneMapping, WebGLRenderer, PMREMGenerator, DefaultLoadingManager } from 'three';
 
 function createRenderer() {
-  const renderer = new WebGLRenderer({alpha : true , antialiasing: true});
+  const renderer = new WebGLRenderer({ alpha: false, antialias: true });
 
-  // turn on the physically correct lighting model
-
-  renderer.setClearColor( 0x000000, 0 ); // the default
+  renderer.setClearColor(0x000000, 0); // the default
   renderer.autoClear = true;
+  renderer.toneMapping = LinearToneMapping;
+  renderer.toneMappingExposure = 1.1
   
-  renderer.toneMapping = ACESFilmicToneMapping;
+  const pmremgen = new PMREMGenerator(renderer);
+  pmremgen.compileEquirectangularShader();
+
+  DefaultLoadingManager.onLoad = function(){
+    pmremgen.dispose();
+  }
 
   // renderer.setAnimationLoop(() => {
   //   renderer.render(scene,camera);
