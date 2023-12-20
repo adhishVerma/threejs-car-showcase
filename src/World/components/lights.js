@@ -8,17 +8,17 @@ import {
 function createLights() {
 
 
-  const sceneLight = new HemisphereLight(0xffffff, 0x0000ff, 0.2);
-  sceneLight.position.set(0,100,0);
+  const ambientLight = new AmbientLight(0x404040, 0)
 
-  const ambientLight = new AmbientLight('white', 0.07)
-
-  const mainLight = new DirectionalLight("white", 1);
-  mainLight.position.set(3, 16, 2);
-  mainLight.color.setHSL( 0.1, 1, 0.95 );
+  const mainLight = new DirectionalLight('white', 4);
   mainLight.castShadow = true;
+  mainLight.shadow.bias = -0.0001;
+  mainLight.shadow.mapSize.height = 1024*4;
+  mainLight.shadow.mapSize.width = 1024*4;
 
-  return { sceneLight, mainLight, ambientLight};
+  const bulb = new HemisphereLight(0xffeeb1,0x080820,4);
+
+  return { mainLight, ambientLight, bulb};
 }
 
 export { createLights };

@@ -1,29 +1,15 @@
-import { Color } from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { BackSide, EquirectangularReflectionMapping, Mesh, MeshBasicMaterial, SRGBColorSpace, SphereGeometry, TextureLoader, Vector3 } from 'three';
 
 
 async function createEnv() {
+    const geometry = new SphereGeometry( 32, 32, 32 );
+    const texture = new TextureLoader().load('/public/assets/env/ulmer_muenster.jpg');
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = EquirectangularReflectionMapping;
+    const material = new MeshBasicMaterial({ map: texture, side : BackSide});
+    const mesh = new Mesh(geometry, material);
 
-    const geometryLoader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    geometryLoader.setDRACOLoader(dracoLoader);
-    const geometry = await geometryLoader.loadAsync('public/assets/env/Dome.glb');
-    const envMesh = geometry.scenes[0];
-    envMesh.traverse(function (node) {
-        if (node.isMesh) {
-            const colorWhite = new Color('white');
-            node.material.emissive = colorWhite;
-            node.material.emissiveIntensity = 0.18;
-        }
-    })
-    envMesh.translateY(-0.001);
-
-
-
-
-    return envMesh;
+    return mesh;
 
 }
 

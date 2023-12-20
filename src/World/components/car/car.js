@@ -5,16 +5,16 @@ import { Color, LoadingManager, TextureLoader } from 'three';
 
 
 
-async function loadCar(progressBarContainer,controls) {
+async function loadCar(progressBarContainer, controls) {
     const loadingManager = new LoadingManager();
 
     loadingManager.onProgress = (url, itemsload, itemstotal) => {
         // console.log(`start loading : ${url}`)
     }
 
-    loadingManager.addHandler( /\.png$/i, new TextureLoader());
+    loadingManager.addHandler(/\.png$/i, new TextureLoader());
 
-    loadingManager.onLoad = function ( ) {
+    loadingManager.onLoad = function () {
         progressBarContainer.style.display = "none";
         controls.style.display = "flex";
     };
@@ -33,10 +33,18 @@ async function loadCar(progressBarContainer,controls) {
             if (node.isMesh) {
                 if (node.material.name === meshName) {
                     node.material.color = new Color(newColor);
+                    node.material.needsUpdate  = true;
                 }
             }
         })
     }
+
+    car.traverse(function(node){
+        if (node.isMesh){
+            node.castShadow = true;
+            node.recieveShadow = true;
+        }
+    })
 
     car.animateOnce = () => {
         car.openDoors();
