@@ -39,6 +39,8 @@ async function loadCar(progressBarContainer, controls) {
         })
     }
 
+    car.scale.multiplyScalar(4);
+
     car.traverse(function(node){
         if (node.isMesh){
             node.castShadow = true;
