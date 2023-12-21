@@ -32,8 +32,8 @@ class World {
         // loading car models
         this.car = await loadCar(progressBarContainer, controls);
         this.scene.add(this.car);
-        // const env = await createEnv();
-        // this.scene.add(env);
+        const env = await createEnv();
+        this.scene.add(env);
         this.loop.updateables.push(this.car);
     }
 
