@@ -1,7 +1,7 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { setupModel } from './setupModel.js';
-import { Color, LoadingManager, TextureLoader } from 'three';
+import { Color, LoadingManager, Mesh, MeshBasicMaterial, PlaneGeometry, TextureLoader } from 'three';
 
 
 
@@ -24,10 +24,11 @@ async function loadCar(progressBarContainer, controls) {
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     loader.setDRACOLoader(dracoLoader);
-    loader.setResourcePath("public/assets/safari/")
+    loader.setResourcePath("public/assets/safari/");
     const carData = await loader.loadAsync('public/assets/safari/model.glb');
     const car = setupModel(carData);
 
+    // car colorchange function
     car.carChange = (meshName, newColor) => {
         car.traverse(function (node) {
             if (node.isMesh) {
@@ -37,7 +38,19 @@ async function loadCar(progressBarContainer, controls) {
                 }
             }
         })
-    }
+    }   
+
+    // adding shadow to the car
+    const shadowPlane = new PlaneGeometry(5,5);
+    const shadowTexture = new TextureLoader().load('/public/assets/safari/SHADOW_DM_ALPHA.png');
+    const shadowMaterial = new MeshBasicMaterial({map : shadowTexture});
+    const shadowMesh = new Mesh(shadowPlane, shadowMaterial);
+
+    // car.traverse(function(node){
+    //     if(node.isMesh){
+    //         console.log(node);
+    //     }
+    // })
 
     car.scale.multiplyScalar(4);
 
