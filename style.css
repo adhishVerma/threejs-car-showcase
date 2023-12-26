@@ -58,7 +58,13 @@ body {
   align-items: center;
 }
 
-#open-door-icon {
+.controls{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.controls-button {
   border: 1px solid rgba(233, 232, 232, 0.643);
   border-radius: 0.5em;
   display: flex;
@@ -70,7 +76,7 @@ body {
   background-color: rgba(246, 246, 246, 0.431);
 }
 
-#open-door-icon img {
+.controls-button img {
   object-position: center;
   object-fit: contain;
   width: 32px;

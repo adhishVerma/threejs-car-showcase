@@ -44,8 +44,8 @@ function setupModel(data) {
     }
 
 
-    model.tick = () => {
-        mixer.update(clock.getDelta());
+    model.tick = (delta) => {
+        mixer.update(delta);
     };
 
     return model;

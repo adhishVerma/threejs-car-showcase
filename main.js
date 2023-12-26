@@ -2,6 +2,7 @@ import { World } from "./src/World/World.js";
 
 const colorHex = document.getElementById('set-color');
 const openDoors = document.getElementById('open-door-icon');
+const lamps = document.getElementById('headlamp');;
 const progressBarContainer = document.querySelector('.progress-bar-container')
 const controls = document.querySelector('.controls')
 
@@ -53,16 +54,20 @@ async function main() {
         }
 
         doors = !doors;
+    });
+
+    lamps.addEventListener('click', function(event){
+        world.toggleLights();        
     })
 
 }
 
 main().catch((err) => {
     console.log(err);
-    alert("loading Failed");
 });
 
-
+// Performance monitor
+javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='https://mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 
 
 
