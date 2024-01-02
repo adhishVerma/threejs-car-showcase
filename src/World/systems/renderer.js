@@ -1,17 +1,16 @@
-import { LinearToneMapping, WebGLRenderer, PMREMGenerator, DefaultLoadingManager, ReinhardToneMapping, CineonToneMapping, SRGBColorSpace } from 'three';
+import {  WebGLRenderer, PMREMGenerator, DefaultLoadingManager,SRGBColorSpace, NoToneMapping } from 'three';
 
 function createRenderer() {
   const renderer = new WebGLRenderer({
     powerPreference: "high-performance",
     antialias: false,
     stencil: false,
-    depth: false
+    depth: true
   });
 
   renderer.setClearColor(0x000000, 0); // the default
   renderer.autoClear = false;
-  renderer.toneMapping = CineonToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMapping = NoToneMapping;
   renderer.outputColorSpace = SRGBColorSpace;
 
 
@@ -21,10 +20,6 @@ function createRenderer() {
   DefaultLoadingManager.onLoad = function () {
     pmremgen.dispose();
   }
-
-  // renderer.setAnimationLoop(() => {
-  //   renderer.render(scene,camera);
-  // })
 
   return renderer;
 }

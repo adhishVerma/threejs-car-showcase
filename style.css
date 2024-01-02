@@ -58,29 +58,31 @@ body {
   align-items: center;
 }
 
-.controls{
+.controls {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
 
 .controls-button {
-  border: 1px solid rgba(233, 232, 232, 0.643);
   border-radius: 0.5em;
+  background: rgba(255,255,255,0.7);
+  border: 2px solid rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  font-size: 1vw;
+  padding: 0.5vw;
+  border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  background-color: rgba(246, 246, 246, 0.431);
 }
 
 .controls-button img {
   object-position: center;
   object-fit: contain;
-  width: 32px;
-  height: 32px;
+  width: 1.3vw;
+  height: 1.3vw;
 }
 
 .progress-bar-container {
@@ -169,4 +171,45 @@ body {
   100% {
     transform: translate(24px, 0);
   }
+}
+
+/* Annotations */
+.annotation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  margin-left: 15px;
+  margin-top: 15px;
+  padding: 1em;
+  width: 200px;
+  color: #fff;
+  border-radius: .5em;
+  font-size: 12px;
+  line-height: 1.2;
+  transition: opacity .5s;
+}
+
+.circleMark {
+  width: 2vw;
+  height: 2vw;
+  font-size: 1vw;
+  padding: 0.1vw;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  border: 2px solid #fff;
+  margin-bottom: 1vw;
+  cursor: pointer;
+}
+
+.box{
+  cursor: pointer;
+}
+
+.boxInner{
+  padding: 0.5vw 1vw;
+  background: rgba(0, 0, 0, 0.6);
 }

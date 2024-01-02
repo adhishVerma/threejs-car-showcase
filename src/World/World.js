@@ -8,14 +8,13 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
 
 // PostProcessing
-import { createComposer } from './systems/postprocessing.js';
+import { createComposer, toggleLamps } from './systems/postprocessing.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { TAARenderPass } from 'three/addons/postprocessing/TAARenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { onPointerDown } from './systems/postprocessing.js';
-import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
+import { TAARenderPass } from 'three/addons/postprocessing/TAARenderPass.js';
+import { ToneMappingShader } from './systems/postprocessing.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
-import { ShaderMaterial, Vector2 } from 'three';
+import { ShaderMaterial, Vector2, Vector3 } from 'three';
 
 
 import { createControls } from './systems/controls.js';
@@ -23,6 +22,7 @@ import { toggleLights } from './systems/postprocessing.js';
 import { createRenderer } from './systems/renderer.js';
 import { Resizer } from './systems/Resizer.js';
 import { gui } from './systems/gui.js';
+import { moveCameraTo, sprite1, sprite2 } from './components/car/carSprites.js';
 
 
 class World {
@@ -35,7 +35,6 @@ class World {
 
         const controls = createControls(this.camera, this.renderer.domElement);
 
-
         const { ambientLight, mainLight } = createLights();
 
         this.scene.add(ambientLight, mainLight);
@@ -43,18 +42,21 @@ class World {
 
         // Postprocessing
         this.bloomComposer = createComposer(this.renderer);
+        
+        const renderPass = new RenderPass(this.scene, this.camera);
+        const outputPass = new OutputPass();
 
-        const renderScene = new RenderPass(this.scene, this.camera);
-        this.bloomComposer.addPass(renderScene);
+        this.bloomComposer.addPass(renderPass);
 
         const bloomPass = new UnrealBloomPass(
             new Vector2(window.innerHeight, window.innerWidth),
-            1, //intensity
-            1, //radius
-            0, //threshold
+            0.33, //intensity
+            0, //radius
+            2, //threshold
         );
         this.bloomComposer.addPass(bloomPass);
         this.bloomComposer.renderToScreen = false;
+        this.bloomComposer.addPass(outputPass);
 
         const mixPass = new ShaderPass(
             new ShaderMaterial({
@@ -69,23 +71,16 @@ class World {
         );
         mixPass.needsSwap = true;
 
-        const outputPass = new OutputPass();
 
         this.finalComposer = createComposer(this.renderer);
-        this.finalComposer.addPass(renderScene);
+        this.finalComposer.addPass(renderPass);
 
         this.finalComposer.addPass(mixPass);
 
+        const acesPass = new ShaderPass(ToneMappingShader);
+        this.finalComposer.addPass(acesPass);
 
-        // const fxaaPass = new ShaderPass(FXAAShader);
-        // this.finalComposer.addPass(fxaaPass);
-        
-        // const taaPass = new TAARenderPass(this.scene, this.camera, 0xffffff, 1);
-        // this.finalComposer.addPass(taaPass);
-        
         this.finalComposer.addPass(outputPass);
-        
-        // window.addEventListener('pointerdown',(event) => {return onPointerDown(event, this.scene, this.camera)});
 
 
         // Resizer
@@ -94,15 +89,13 @@ class World {
         // animation loop
         this.loop = new Loop(this.camera, this.scene, this.renderer, controls, this.bloomComposer, this.finalComposer);
 
-        // GUI
-        const folder1 = gui.addFolder('renderer');
-        folder1.add(this.renderer, 'toneMapping');
-        folder1.add(this.renderer, 'toneMappingExposure', 0,10,0.01);
+        const annotation2 = document.querySelector(".annotation2");
 
-        const folder2 = gui.addFolder('bloom');
-        folder2.add(bloomPass, 'radius',0,10,0.01);
-        folder2.add(bloomPass, 'strength',0,10,0.01);
-        folder2.add(bloomPass, 'threshold',0,10,0.1);
+        annotation2.addEventListener('click', () => {
+            console.log('click');
+              const newCameraPosition = new Vector3(3, 7, -15);  
+              moveCameraTo(newCameraPosition, controls, this.camera);  
+          });
     }
 
     async init(progressBarContainer, controls) {
@@ -119,7 +112,8 @@ class World {
     }
 
     start() {
-        this.loop.start();
+        // this.loop.start();
+        this.loop.animate();
     }
 
     stop() {
@@ -135,12 +129,18 @@ class World {
     }
 
 
-    carChange(meshName, newColor) {
-        this.car.carChange(meshName, newColor);
+    carChange(newColor) {
+        this.car.carChange(newColor);
     }
 
-    toggleLights(){
+    toggleLights() {
         toggleLights(this.scene);
+        toggleLamps(this.car);
+    }
+
+    addAnnotations(){
+        this.scene.add(sprite1);
+        this.scene.add(sprite2);
     }
 }
 
