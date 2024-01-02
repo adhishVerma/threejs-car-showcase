@@ -6,13 +6,9 @@ import {
 function createLights() {
 
 
-  const ambientLight = new AmbientLight(0x404040, 0.1)
+  const ambientLight = new AmbientLight(0xffffff, 0)
 
-  const mainLight = new DirectionalLight('white', 4);
-  mainLight.castShadow = true;
-  mainLight.shadow.bias = -0.0001;
-  mainLight.shadow.mapSize.height = 1024*4;
-  mainLight.shadow.mapSize.width = 1024*4;
+  const mainLight = new DirectionalLight(0xffffff, 3);
 
   return { mainLight, ambientLight};
 }

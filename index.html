@@ -18,7 +18,8 @@
           {
             "imports": {
               "three": "https://unpkg.com/three@v0.155.0/build/three.module.js",
-              "three/addons/": "https://unpkg.com/three@v0.155.0/examples/jsm/"
+              "three/addons/": "https://unpkg.com/three@v0.155.0/examples/jsm/",
+              "@tweenjs/tween.js" : "https://cdnjs.cloudflare.com/ajax/libs/tween.js/21.0.0/tween.esm.js"
             }
           }
         </script>
@@ -45,8 +46,26 @@
         <img src="public/icons/headlight.png">
       </div>
     </div>
-  </div>
-  <script type="x-shader/x-vertex" id="vertexshader">
+    <div class="annotation annotation1">
+      <div class="box box1">
+        <div class="circleMark circleMark1">1</div>
+        <div class="boxInner">
+          <p><strong>Front</strong></p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique fugiat, corporis amet enim sapiente cum
+            hic?</p>
+        </div>
+      </div>
+    </div>
+    <div class="annotation annotation2">
+      <div class="box box2">
+        <div class="circleMark circleMark2">2</div>
+        <div class="boxInner">
+          <p><strong>Back</strong></p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa, corporis.</p>
+        </div>
+      </div>
+    </div>
+    <script type="x-shader/x-vertex" id="vertexshader">
 
     varying vec2 vUv;
 
@@ -60,7 +79,7 @@
 
   </script>
 
-  <script type="x-shader/x-fragment" id="fragmentshader">
+    <script type="x-shader/x-fragment" id="fragmentshader">
 
     uniform sampler2D baseTexture;
     uniform sampler2D bloomTexture;
@@ -69,13 +88,13 @@
 
     void main() {
 
-      gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+      gl_FragColor = ( 1.5*texture2D( baseTexture, vUv ) + vec4( 1.0,1.0,1.0,1.0) * texture2D( bloomTexture, vUv ) );
 
     }
 
   </script>
 
-  <script type="module" src="/main.js"></script>
+    <script type="module" src="/main.js"></script>
 </body>
 
 </html>

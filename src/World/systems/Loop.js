@@ -1,5 +1,8 @@
 import { Clock } from "three";
 import { nonBloomed, restoreMaterial } from "./postprocessing.js";
+import {  updateAnnotationOpacity, updateScreenPosition } from "../components/car/carSprites.js";
+import * as TWEEN from '@tweenjs/tween.js'
+
 
 const clock = new Clock();
 
@@ -16,14 +19,28 @@ class Loop {
 
   start() {
     this.renderer.setAnimationLoop(() => {
-        this.tick();
-        this.controls.update();
-        this.scene.traverse(nonBloomed);
-        // this.renderer.render(this.scene, this.camera);
-        this.bloomComposer.render();
-        this.scene.traverse(restoreMaterial);
-        this.finalComposer.render();
+      this.tick();
+      this.controls.update();
+      this.scene.traverse(nonBloomed);
+      this.bloomComposer.render();
+      this.scene.traverse(restoreMaterial);
+      this.finalComposer.render();
+      // this.renderer.render(this.scene, this.camera);
+
     })
+  }
+
+  animate() {
+    this.tick();
+    TWEEN.update();
+    this.controls.update();
+    this.scene.traverse(nonBloomed);
+    this.bloomComposer.render();
+    this.scene.traverse(restoreMaterial);
+    this.finalComposer.render();
+    updateScreenPosition(this.renderer, this.camera);
+    updateAnnotationOpacity(this.camera);
+    requestAnimationFrame(this.animate.bind(this));
   }
 
 
@@ -37,18 +54,17 @@ class Loop {
     })
   }
 
-  resetAnimation(){
+  resetAnimation() {
     this.updateables.forEach((object) => {
       object.resetAnimation();
     })
   }
 
 
-  tick(){
+  tick() {
     const delta = clock.getDelta();
-
-    for(const object of this.updateables){
-        object.tick(delta);
+    for (const object of this.updateables) {
+      object.tick(delta);
     }
   }
 }

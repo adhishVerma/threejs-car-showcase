@@ -1,7 +1,4 @@
 import { AnimationMixer, AnimationObjectGroup, LoopOnce } from "three";
-import { Clock } from "three";
-
-const clock = new Clock();
 
 function setupModel(data) {
 
@@ -11,14 +8,11 @@ function setupModel(data) {
     const animationGroup = new AnimationObjectGroup(model);
     const mixer = new AnimationMixer(animationGroup);
     const actions = []
-
-    // model.traverse(function(node){
-    //     if (node.isMesh){
-    //         if(node.material.name == 'NUMBERPLATE'){
-    //             console.log(node)
-    //         }
-    //     }
-    // })
+    model.carExtPaint = []
+    model.carIntPaint = []
+    model.lights = {};
+    model.projectors = [];
+    model.lamps = [];
 
 
     clips.forEach(clip => {
@@ -47,6 +41,44 @@ function setupModel(data) {
     model.tick = (delta) => {
         mixer.update(delta);
     };
+
+    // finding the nodes
+    model.traverse((node) => {
+        if (node.isMesh) {
+            switch (node.name) {
+                case 'ground':
+                    model.ground = node;
+                    break;
+                case 'Prjecter_Glass001':
+                    model.projectors.push(node);
+                    break;
+                case 'Prjecter_Glass002':
+                    model.projectors.push(node);
+                    break;
+                case 'SAFARI_MESH014':
+                    model.lamps.push(node);
+                    break;
+                case 'SAFARI_MESH147':
+                    model.lamps.push(node);
+                    break;
+            }
+
+            switch (node.material.name) {
+                case "EXT_COLORBODY":
+                    model.carExtPaint.push(node);
+                    break;
+                case "INT_COLORBODY":
+                    model.carIntPaint.push(node);
+                    break;
+                case 'EXT_HALOGEN_LIGHT_GLOW':
+                    model.halogen = node.material;
+                    break;
+                case 'EXT_TAILLIGHT_INDICATOR_BULB':
+                    model.tailLightBulb = node.material;
+                    break;
+            }
+        }
+    });
 
     return model;
 }
